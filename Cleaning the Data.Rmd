@@ -1,0 +1,57 @@
+
+
+```{r, message=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+```{r read in data}
+mlb_2020 <- read_excel("~/Honors-Project/Data/mlb-data 2020 season.xlsx")
+```
+
+```{r cleaning the data}
+mlb_2020 <- mlb_2020 %>%
+  rename("Home/Away" = "...3")
+```
+
+
+```{r  creating home and away games}
+mlb_2020$`Home/Away` <- mlb_2020$`Home/Away` %>%
+  str_replace("@", "Away") %>%
+  replace_na("Home")
+```
+
+```{r replace na values}
+mlb_2020$Inn <- mlb_2020$Inn %>%
+  replace_na(9)
+```
+
+```{r removing extra innings}
+mlb_2020_cleaned <- mlb_2020 %>%
+  filter(Inn == 9)
+```
+
+
+```{r create a plot}
+mlb_2020_cleaned %>%
+  ggplot(aes(x = R)) + 
+  geom_bar() +
+  labs(x = "Runs Scored",
+       y = "Frequency")
+```
+
+```{r summary stats}
+mlb_2020 %>%
+  filter(Inn==9) %>%
+  summarize(min = min(R), Q1 = quantile(R, .25), 
+            median = median(R), mean = mean(R),
+            Q3 = quantile(R, .75), max = max(R))
+```
+```{r group by team}
+mlb_2020 %>%
+  group_by(Tm) %>%
+  summarize(mean = mean(R)) %>%
+  ggplot(aes(x = mean)) +
+  geom_histogram()
+```
+

@@ -1,0 +1,28 @@
+
+```{r, message=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+```{r}
+success <- 0:25
+
+plot1<- plot(success, dpois(success, lambda = 3), 
+     type = 'h',
+     main = "Poisson Distribution (lambda = 3)",
+     xlab = "Successes",
+     ylab = "Probability")
+
+plot(success, dpois(success, lambda = 5), 
+     type = 'h',
+     main = "Poisson Distribution (lambda = 5)",
+     xlab = "Successes",
+     ylab = "Probability")
+
+plot(success, dpois(success, lambda = 7), 
+     type = 'h',
+     main = "Poisson Distribution (lambda = 7)",
+     xlab = "Successes",
+     ylab = "Probability")
+```
+
